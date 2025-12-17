@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador Especial 💜💚</title>
+    <link rel="icon" type="image/webp" href="fabicon.webp">
+
+
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.8s ease;
+        }
+
+        body.login-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body.meri-theme {
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 50%, #e879f9 100%);
+        }
+
+        body.smii-theme {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-box h1 {
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            color: #ef4444;
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .main-content {
+            display: none;
+            max-width: 900px;
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .countdown {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .countdown h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            padding: 1.5rem;
+            border-radius: 15px;
+            min-width: 100px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .time-unit .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .time-unit .label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-box p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .images-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .images-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 1rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .memory-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .logout-btn {
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+
+        .hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 4s ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="login-screen">
+
+    <div class="hearts"></div>
+    
+    <div class="container">
+        <div class="login-box" id="loginBox">
+            <h1>✨ Acceso Especial ✨</h1>
+            <div class="input-group">
+                <label for="username">Nombre:</label>
+                <input type="text" id="username" placeholder="Tu nombre">
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" placeholder="Contraseña">
+            </div>
+            <button class="login-btn" onclick="login()">Entrar 💕</button>
+            <div class="error-message" id="errorMessage">❌ Usuario o contraseña incorrectos</div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <h1 id="welcomeTitle"></h1>
+                <p style="font-size: 1.3rem; color: #555;">¡Estoy súper emocionada de verte! 🎉</p>
+            </div>
+
+            <div class="countdown">
+                <h2>⏰ Faltan...</h2>
+                <div class="countdown-timer" id="countdownTimer"></div>
+            </div>
+
+            <div class="message-box" id="messageBox"></div>
+
+            <div class="images-section">
+                <h3>📸 Nuestros Recuerdos</h3>
+                <div class="image-gallery" id="imageGallery"></div>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        const targetDate = new Date('2026-01-22T00:00:00').getTime();
+
+        const users = {
+            'meri': {
+                password: 'multi',
+                theme: 'meri-theme',
+                color: '#a78bfa',
+                title: '¡Hola Meri! 💜',
+                image: ['meri.jpg', 'meri2.jpg', 'meri3.jpg', 'meri4.jpg', 'meri5.jpg', 'meri6.jpg', 'meri7.jpg', 'meri8.jpg', 'meri9.jpg', 'toas.jpg', 'toas3.jpg', 'todas2.jpg', 'todas4.jpg', 'todas5.jpg', 'todas7.jpg'],
+                message: `
+                    <p>¡No sabes lo feliz que me hace que vengas! 🥰</p>
+                    <p>Cada día que pasa estoy más emocionada de verte. Tengo tantas ganas de pasar tiempo contigo, de reírnos juntas, de hacer mil cosas y de crear más recuerdos increíbles, de que por fin estes bien e inicies una nueva etapa en tu vida. 💜</p>
+                    <p>Eres una de las personas más especiales en mi vida y te quiero muchísimo. ¡Que llegue ya el 22 de enero! ✨</p>
+                    <p style="font-size: 1.5rem; margin-top: 1.5rem;">Te quiero un montón 💜💜💜</p>
+                `
+            },
+            'smi': {
+                password: 'multi',
+                theme: 'smii-theme',
+                color: '#34d399',
+                title: '¡Hola Smi! 💚',
+                image: ['smi.jpg', 'smi2.jpg', 'smi3.jpg', 'smi4.jpg', 'smi5.jpg', 'smi6.jpg', 'smi8.jpg', 'smi9.jpg', 'toas.jpg', 'toas3.jpg', 'todas2.jpg', 'todas4.jpg', 'todas5.jpg', 'todas6.jpg', 'todas7.jpg'],
+                message: `
+                    <p>¡Estoy contando los días para verte! 🌟</p>
+                    <p>No puedo esperar a que llegues. Vamos a pasarlo increíble, hacer todas esas cosas que siempre hablamos y simplemente disfrutar de estar juntas. Quién me diría que los nesquiks y los cafes nos llevarían aquí. 💚</p>
+                    <p>Eres súper importante para mí y te echo un montón de menos. ¡Ya queda poquito para el reencuentro! ✨</p>
+                    <p style="font-size: 1.5rem; margin-top: 1.5rem;">Te quiero muchísimo 💚💚💚</p>
+                `
+            }
+        };
+
+        function login() {
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            const password = document.getElementById('password').value.toLowerCase().trim();
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (users[username] && users[username].password === password) {
+                currentUser = users[username];
+                errorMessage.style.display = 'none';
+                showMainContent();
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function showMainContent() {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.body.className = currentUser.theme;
+            
+            document.getElementById('welcomeTitle').textContent = currentUser.title;
+            document.getElementById('messageBox').innerHTML = currentUser.message;
+            
+            const gallery = document.getElementById('imageGallery');
+            gallery.innerHTML = '';
+            currentUser.image.forEach((imgSrc, index) => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `Recuerdo ${index + 1}`;
+                img.className = 'memory-image';
+                gallery.appendChild(img);
+            });
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            createHearts();
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const timer = document.getElementById('countdownTimer');
+            timer.innerHTML = `
+                <div class="time-unit">
+                    <div class="number">${days}</div>
+                    <div class="label">Días</div>
+                </div>
+                <div class="time-unit">
+                    <div class="number">${hours}</div>
+                    <div class="label">Horas</div>
+                </div>
+                <div class="time-unit">
+                    <div class="number">${minutes}</div>
+                    <div class="label">Minutos</div>
+                </div>
+                <div class="time-unit">
+                    <div class="number">${seconds}</div>
+                    <div class="label">Segundos</div>
+                </div>
+            `;
+
+            if (distance < 0) {
+                timer.innerHTML = '<h2 style="font-size: 2.5rem;">¡YA ESTAMOS JUNTAS! 🎉🎊</h2>';
+            }
+        }
+
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = Math.random() > 0.5 ? '💜' : '💚';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.bottom = '0';
+                document.querySelector('.hearts').appendChild(heart);
+
+                setTimeout(() => heart.remove(), 4000);
+            }, 1000);
+        }
+
+        function logout() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('loginBox').style.display = 'block';
+            document.body.className = 'login-screen';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            currentUser = null;
+        }
+
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>
